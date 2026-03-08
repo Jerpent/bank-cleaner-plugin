@@ -17,6 +17,10 @@ import net.runelite.client.ui.NavigationButton;
 import net.runelite.client.util.ImageUtil;
 
 import javax.inject.Inject;
+import java.awt.BasicStroke;
+import java.awt.Color;
+import java.awt.Graphics2D;
+import java.awt.RenderingHints;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -59,15 +63,26 @@ public class BankCleanerPlugin extends Plugin
 	{
 		panel = new BankCleanerPanel(this, config);
 
-		BufferedImage icon;
-		try
-		{
-			icon = ImageUtil.loadImageResource(getClass(), "icon.png");
-		}
-		catch (IllegalArgumentException e)
-		{
-			icon = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
-		}
+		BufferedImage icon = new BufferedImage(16, 16, BufferedImage.TYPE_INT_ARGB);
+		Graphics2D g = icon.createGraphics();
+		g.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+		// Handle
+		g.setColor(new Color(139, 90, 43));
+		g.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		g.drawLine(13, 0, 5, 8);
+		// Ferrule band
+		g.setColor(new Color(80, 50, 10));
+		g.setStroke(new BasicStroke(2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		g.drawLine(6, 7, 4, 9);
+		// Bristles
+		g.setStroke(new BasicStroke(1.2f, BasicStroke.CAP_ROUND, BasicStroke.JOIN_ROUND));
+		g.setColor(new Color(220, 180, 80));
+		g.drawLine(5, 9,  0, 15);
+		g.drawLine(5, 9,  2, 15);
+		g.drawLine(5, 9,  4, 15);
+		g.drawLine(5, 9,  6, 15);
+		g.drawLine(5, 9,  8, 15);
+		g.dispose();
 
 		navButton = NavigationButton.builder()
 			.tooltip("Bank Cleaner")
